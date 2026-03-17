@@ -22,16 +22,21 @@ type TransactionFiltersProps = {
 export function TransactionFilters({ categories }: TransactionFiltersProps) {
   const [searchParam, setSearchParam] = useSearchParams();
   const [description, setDescription] = useState(
-    searchParam.get('description') || undefined
+    searchParam.get('description') || ''
   );
   const periods = generateMonthPeriods();
+
+  useEffect(() => {
+    const urlDescription = searchParam.get('description') || '';
+    setDescription(urlDescription);
+  }, [searchParam]);
 
   const handleUpdateSearchParams = useCallback(
     (key: string, value: string) => {
       setSearchParam((prevSearchParams) => {
         const newParams = new URLSearchParams(prevSearchParams);
 
-        if (value === 'all') {
+        if (value === 'all' || value === '') {
           newParams.delete(key);
         } else {
           newParams.set(key, value);
@@ -45,9 +50,7 @@ export function TransactionFilters({ categories }: TransactionFiltersProps) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (description) {
-        handleUpdateSearchParams('description', description);
-      }
+      handleUpdateSearchParams('description', description);
     }, 300);
 
     return () => clearTimeout(timer);
