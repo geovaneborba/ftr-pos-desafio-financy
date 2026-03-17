@@ -29,7 +29,9 @@ export function CategoriesCard() {
   return (
     <Card className="gap-0 self-start bg-white pt-0">
       <CardHeader className="flex h-[3.75rem] flex-row items-center justify-between border-b border-gray-200 py-0 sm:py-5 sm:pr-3 sm:pl-6">
-        <CardTitle className="text-xs font-medium text-gray-500 uppercase">Categorias</CardTitle>
+        <CardTitle className="text-xs font-medium text-gray-500 uppercase">
+          Categorias
+        </CardTitle>
 
         <Link
           className="text-brand-base hover:text-brand-dark flex items-center gap-1 text-sm hover:underline"
@@ -41,9 +43,20 @@ export function CategoriesCard() {
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
         <div className="space-y-4">
-          {categories?.map((category) => (
-            <CategoryItem key={category.id} category={category} />
-          ))}
+          {categories.length > 0 ? (
+            categories?.map((category) => (
+              <CategoryItem key={category.id} category={category} />
+            ))
+          ) : (
+            <div className="py-8 text-center">
+              <p className="mb-2 text-sm text-gray-500">
+                Nenhuma categoria encontrada
+              </p>
+              <p className="text-xs text-gray-400">
+                Crie categorias para organizar melhor suas transações
+              </p>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

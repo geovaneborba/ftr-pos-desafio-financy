@@ -45,9 +45,21 @@ export function RecentTransactions() {
         </Link>
       </CardHeader>
       <CardContent className="p-0">
-        {transactions.map((transaction) => (
-          <TransactionItem key={transaction.id} transaction={transaction} />
-        ))}
+        {transactions.length > 0 ? (
+          transactions.map((transaction) => (
+            <TransactionItem key={transaction.id} transaction={transaction} />
+          ))
+        ) : (
+          <div className="p-8 text-center">
+            <p className="mb-4 text-sm text-gray-500">
+              Nenhuma transação encontrada
+            </p>
+            <p className="text-xs text-gray-400">
+              Comece registrando sua primeira transação para organizar suas
+              finanças
+            </p>
+          </div>
+        )}
 
         <CreateTransactionDialog>
           <Button
