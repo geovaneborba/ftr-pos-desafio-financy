@@ -317,6 +317,9 @@ async function main() {
   console.log(`   Receitas: ${incomeCount}`);
   console.log(`   Despesas: ${outcomeCount}`);
   console.log("\n✅ Seed concluído com sucesso!");
+  console.log("\n⚠️  Credenciais de acesso:");
+  console.log(`   Email: johndoe@example.com`);
+  console.log(`   Senha: 123456`);
 }
 
 main()
