@@ -4,14 +4,34 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, LogIn, Eye, EyeClosed } from 'lucide-react';
 import { cn } from '@/utils/utils';
+import { toast } from 'sonner';
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel
+} from '@/components/ui/field';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput
+} from '@/components/ui/input-group';
 
 import { Button } from '@/components/ui/button';
 
-import { registerUserFormSchema, RegisterUserFormData } from '@/schemas/auth-schema';
+import {
+  registerUserFormSchema,
+  RegisterUserFormData
+} from '@/schemas/auth-schema';
 import { useAuthStore } from '@/stores/auth-store';
 
 type RegisterFormProps = ComponentProps<'div'>;
@@ -43,23 +63,27 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
       });
 
       if (!success) {
+        toast.error(
+          'Falha ao criar conta. Verifique os dados e tente novamente.'
+        );
         return;
       }
 
+      toast.success('Conta criada com sucesso!');
       await navigate('/dashboard', {
         replace: true
       });
     } catch (error) {
-      console.error('Register failed:', error);
+      toast.error('Falha ao criar conta. Tente novamente mais tarde.');
     }
   };
-
-  console.log(errors);
 
   return (
     <Card className={cn(className)} {...props}>
       <CardHeader className="mb-8 text-center">
-        <CardTitle className="text-xl font-bold text-gray-800">Criar conta</CardTitle>
+        <CardTitle className="text-xl font-bold text-gray-800">
+          Criar conta
+        </CardTitle>
         <CardDescription className="text-base text-gray-600">
           Comece a controlar suas finanças ainda hoje
         </CardDescription>
@@ -100,7 +124,11 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
                 />
               </InputGroup>
 
-              {errors.name && <FieldError className="text-danger text-xs">{errors.name.message}</FieldError>}
+              {errors.name && (
+                <FieldError className="text-danger text-xs">
+                  {errors.name.message}
+                </FieldError>
+              )}
             </Field>
 
             {/* Email Field */}
@@ -136,7 +164,11 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
                 />
               </InputGroup>
 
-              {errors.email && <FieldError className="text-danger text-xs">{errors.email.message}</FieldError>}
+              {errors.email && (
+                <FieldError className="text-danger text-xs">
+                  {errors.email.message}
+                </FieldError>
+              )}
             </Field>
 
             {/* Password Field */}
@@ -174,13 +206,23 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="text-gray-700 transition-colors hover:text-gray-600"
-                    aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                    aria-label={
+                      showPassword ? 'Ocultar senha' : 'Mostrar senha'
+                    }
                   >
-                    {showPassword ? <EyeClosed className="size-4" /> : <Eye className="size-4" />}
+                    {showPassword ? (
+                      <EyeClosed className="size-4" />
+                    ) : (
+                      <Eye className="size-4" />
+                    )}
                   </button>
                 </InputGroupAddon>
               </InputGroup>
-              {errors.password && <FieldError className="text-danger text-xs">{errors.password.message}</FieldError>}
+              {errors.password && (
+                <FieldError className="text-danger text-xs">
+                  {errors.password.message}
+                </FieldError>
+              )}
             </Field>
 
             <Button type="submit" disabled={isSubmitting}>
@@ -196,7 +238,9 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
             <hr className="flex-1 text-gray-300" />
           </div>
 
-          <p className="mt-6 mb-4 text-center text-sm text-gray-600">Já tem uma conta?</p>
+          <p className="mt-6 mb-4 text-center text-sm text-gray-600">
+            Já tem uma conta?
+          </p>
 
           <Button className="w-full" variant={'outline'} asChild>
             <a href="/">

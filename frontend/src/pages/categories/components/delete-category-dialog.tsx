@@ -9,6 +9,7 @@ import {
 
 import { ReactNode, useState } from 'react';
 import { useMutation, useApolloClient } from '@apollo/client/react';
+import { toast } from 'sonner';
 
 import { Category } from '@/types';
 import { DELETE_CATEGORY_MUTATION } from '@/lib/graphql/mutations/category/delete-category';
@@ -42,9 +43,10 @@ export function DeleteCategoryDialog({
       });
 
       setDialogOpen(false);
+      toast.success('Categoria excluída com sucesso!');
     },
     onError: (error) => {
-      console.error('Error deleting category:', error);
+      toast.error('Erro ao excluir categoria. Tente novamente.');
     }
   });
 

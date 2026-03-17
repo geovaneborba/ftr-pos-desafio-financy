@@ -1,6 +1,11 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel
+} from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { LogOut } from 'lucide-react';
@@ -11,6 +16,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUsernameInitials } from '@/utils/get-username-initials';
+import { toast } from 'sonner';
 
 export function Profile() {
   const navigate = useNavigate();
@@ -32,7 +38,7 @@ export function Profile() {
   const onSubmit = async (data: ProfileFormData) => {
     try {
       await updateProfile(data.name);
-      console.log('Perfil atualizado com sucesso!');
+      toast.success('Perfil atualizado com sucesso!');
     } catch (error) {
       console.error('Erro ao atualizar perfil:', error);
     }
@@ -64,7 +70,9 @@ export function Profile() {
                 {user?.name ? getUsernameInitials(user.name) : ''}
               </AvatarFallback>
             </Avatar>
-            <h3 className="text-xl font-semibold text-gray-800 capitalize">{user?.name}</h3>
+            <h3 className="text-xl font-semibold text-gray-800 capitalize">
+              {user?.name}
+            </h3>
             <p className="text-base text-gray-500">{user?.email}</p>
           </div>
 
@@ -74,15 +82,28 @@ export function Profile() {
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Field>
-              <FieldLabel className="text-sm text-gray-700">Nome completo</FieldLabel>
+              <FieldLabel className="text-sm text-gray-700">
+                Nome completo
+              </FieldLabel>
               <Input type="text" {...register('name')} />
-              {errors.name && <FieldError className="text-danger text-sm">{errors.name.message}</FieldError>}
+              {errors.name && (
+                <FieldError className="text-danger text-sm">
+                  {errors.name.message}
+                </FieldError>
+              )}
             </Field>
 
             <Field>
               <FieldLabel className="text-sm text-gray-700">E-mail</FieldLabel>
-              <Input type="email" disabled className="bg-gray-50" {...register('email')} />
-              <FieldDescription className="text-xs text-gray-500">O e-mail não pode ser alterado</FieldDescription>
+              <Input
+                type="email"
+                disabled
+                className="bg-gray-50"
+                {...register('email')}
+              />
+              <FieldDescription className="text-xs text-gray-500">
+                O e-mail não pode ser alterado
+              </FieldDescription>
             </Field>
 
             <div className="mt-8 flex flex-col gap-4">

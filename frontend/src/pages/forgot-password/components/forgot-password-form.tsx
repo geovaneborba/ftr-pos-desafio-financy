@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import {
   Card,
@@ -44,9 +45,10 @@ export function ForgotPasswordForm({
   const [forgotPassword, { loading }] = useMutation(FORGOT_PASSWORD_MUTATION, {
     onCompleted: () => {
       setIsSuccess(true);
+      toast.success('E-mail de recuperação enviado com sucesso!');
     },
     onError: (error) => {
-      console.error('Forgot password failed:', error);
+      toast.error('Erro ao enviar e-mail de recuperação. Tente novamente.');
     }
   });
 

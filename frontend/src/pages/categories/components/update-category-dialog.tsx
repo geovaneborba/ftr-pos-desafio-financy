@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -56,9 +57,10 @@ export function UpdateCategoryDialog({
     onCompleted: () => {
       setDialogOpen(false);
       reset();
+      toast.success('Categoria atualizada com sucesso!');
     },
     onError: (error) => {
-      console.error('Error updating category:', error);
+      toast.error('Erro ao atualizar categoria. Tente novamente.');
     }
   });
 

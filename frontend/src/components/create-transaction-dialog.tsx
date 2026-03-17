@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { CircleArrowDown, CircleArrowUp } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -88,9 +89,10 @@ export function CreateTransactionDialog({
       onCompleted: () => {
         setDialogOpen(false);
         reset();
+        toast.success('Transação criada com sucesso!');
       },
       onError: (error) => {
-        console.error('Error creating transaction:', error);
+        toast.error('Erro ao criar transação. Tente novamente.');
       }
     }
   );

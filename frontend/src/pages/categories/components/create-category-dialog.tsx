@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -53,9 +54,10 @@ export function CreateCategoryDialog() {
     onCompleted: () => {
       setDialogOpen(false);
       reset();
+      toast.success('Categoria criada com sucesso!');
     },
     onError: (error) => {
-      console.error('Error creating category:', error);
+      toast.error('Erro ao criar categoria. Tente novamente.');
     }
   });
 
@@ -154,6 +156,7 @@ export function CreateCategoryDialog() {
                     return (
                       <Button
                         key={iconName}
+                        type="button"
                         variant={'outline'}
                         onClick={() => field.onChange(iconName)}
                         className={cn(

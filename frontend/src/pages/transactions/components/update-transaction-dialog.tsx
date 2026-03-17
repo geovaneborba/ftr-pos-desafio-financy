@@ -26,6 +26,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { cn } from '@/utils/utils';
 import { DialogDescription } from '@radix-ui/react-dialog';
+import { toast } from 'sonner';
 
 import {
   TransactionFormData,
@@ -87,9 +88,10 @@ export function UpdateTransactionDialog({
       refetchQueries: [LIST_CATEGORIES, LIST_TRANSACTIONS],
       onCompleted: () => {
         setDialogOpen(false);
+        toast.success('Transação atualizada com sucesso!');
       },
       onError: (error) => {
-        console.error('Error updating transaction:', error);
+        toast.error('Erro ao atualizar transação. Tente novamente.');
       }
     }
   );

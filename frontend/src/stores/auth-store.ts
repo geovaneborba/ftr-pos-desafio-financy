@@ -22,12 +22,13 @@ import {
   UpdateProfileMutationData
 } from '@/lib/graphql/mutations/user/update-profile';
 import { ProfileFormData } from '@/schemas/profile-schema';
+import { toast } from 'sonner';
 
 type AuthState = {
   user: User | null;
   token: string | null;
-  isAuthenticated: boolean;
   refreshToken: string | null;
+  isAuthenticated: boolean;
   signUp: (data: RegisterUserFormData) => Promise<boolean>;
   signIn: (data: LoginFormData) => Promise<boolean>;
   refreshAccessToken: () => Promise<boolean>;
@@ -73,7 +74,7 @@ export const useAuthStore = create<AuthState>()(
 
           return false;
         } catch (error) {
-          console.log('Erro ao fazer o cadastro');
+          toast.error('Erro ao fazer o cadastro. Tente novamente.');
           throw error;
         }
       },
@@ -106,7 +107,7 @@ export const useAuthStore = create<AuthState>()(
           }
           return false;
         } catch (error) {
-          console.log('Erro ao fazer o login');
+          toast.error('Erro ao fazer login. Verifique suas credenciais.');
           throw error;
         }
       },
@@ -158,6 +159,7 @@ export const useAuthStore = create<AuthState>()(
           });
           return true;
         } catch (error) {
+          toast.error('Erro ao atualizar o token de acesso');
           console.error('Erro ao atualizar o token de acesso', error);
           await useAuthStore.getState().logout();
           return false;
@@ -189,6 +191,7 @@ export const useAuthStore = create<AuthState>()(
 
           return false;
         } catch (error) {
+          toast.error('Erro ao atualizar perfil');
           console.error('Erro ao atualizar perfil', error);
           throw error;
         }
@@ -205,6 +208,7 @@ export const useAuthStore = create<AuthState>()(
               }
             });
           } catch (error) {
+            toast.error('Erro ao fazer logout');
             console.error('Erro ao fazer logout', error);
           }
         }

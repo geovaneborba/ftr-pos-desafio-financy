@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail, Lock, UserRoundPlus, Eye, EyeClosed } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import {
   Card,
@@ -57,7 +58,9 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
       await signIn(data);
       await navigate('/dashboard', { replace: true });
     } catch {
-      console.error('Login failed');
+      toast.error(
+        'Falha ao fazer login. Verifique suas credenciais ou tente novamente mais tarde.'
+      );
     }
   };
 

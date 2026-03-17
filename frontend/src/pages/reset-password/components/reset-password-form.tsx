@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/utils/utils';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import {
   Card,
@@ -53,8 +54,12 @@ export function ResetPasswordForm({
   const [resetPassword, { loading }] = useMutation(RESET_PASSWORD_MUTATION, {
     onCompleted: () => {
       setIsSuccess(true);
+      toast.success('Senha redefinida com sucesso!');
     },
     onError: (error: any) => {
+      toast.error(
+        'Erro ao redefinir senha. Verifique o token e tente novamente.'
+      );
       setError(error.message || 'Erro ao redefinir senha');
     }
   });
@@ -96,6 +101,7 @@ export function ResetPasswordForm({
         }
       });
     } catch (error: any) {
+      toast.error('Erro ao redefinir senha. Tente novamente.');
       setError(error.message || 'Erro ao redefinir senha');
     }
   };

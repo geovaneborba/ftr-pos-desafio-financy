@@ -14,6 +14,7 @@ import { Transaction } from '@/types/transaction';
 import { LIST_TRANSACTIONS } from '@/lib/graphql/queries/transaction';
 import { formatCurrency } from '@/utils/format-currency';
 import { LIST_CATEGORIES } from '@/lib/graphql/queries/category';
+import { toast } from 'sonner';
 
 type DeleteTransactionDialogProps = {
   transaction: Transaction;
@@ -32,9 +33,10 @@ export function DeleteTransactionDialog({
       refetchQueries: [LIST_TRANSACTIONS, LIST_CATEGORIES],
       onCompleted: () => {
         setDialogOpen(false);
+        toast.success('Transação excluída com sucesso!');
       },
       onError: (error) => {
-        console.error('Error deleting transaction:', error);
+        toast.error('Erro ao excluir transação. Tente novamente.');
       }
     }
   );
@@ -47,7 +49,7 @@ export function DeleteTransactionDialog({
         }
       });
     } catch (error) {
-      console.error('Error deleting transaction:', error);
+      toast.error('Erro ao excluir transação. Tente novamente.');
     }
   };
 
