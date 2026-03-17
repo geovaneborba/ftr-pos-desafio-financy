@@ -7,7 +7,8 @@ npm-debug.log*
 node_modules
 
 # Prisma
-prisma/.env
+backend/prisma/.env
+backend/prisma/dev.db
 
 # IDEs and editors
 .vscode/
@@ -25,9 +26,3 @@ dist/
 
 # Editor backups and settings
 *.DS_Store
-# Snyk Security Extension - AI Rules (auto-generated)
-.windsurf/rules/snyk_rules.md
-
-.vscode
-.agents
-.windsurf

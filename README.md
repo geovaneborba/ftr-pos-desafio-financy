@@ -25,8 +25,8 @@ Sistema de gestão financeira com backend em Node.js e frontend em React. Utiliz
 
 ## 📋 Funcionalidades
 
-- ✅ **Autenticação Segura**: Login, registro com JWT + Refresh Token
-- ✅ **Gestão de Transações**: Criar, editar, deletar e listar transações (income/outcome)
+- ✅ **Autenticação Segura**: Login, registro com JWT + Refresh Token + Recuperação de senha
+- ✅ **Gestão de Transações**: Criar, editar, deletar e listar transações, com filtros por categoria, período e paginação
 - ✅ **Categorias Personalizadas**: Sistema de categorias com cores e ícones
 - ✅ **Isolamento de Dados**: Cada usuário acessa apenas seus dados
 - ✅ **Dashboard Financeiro**: Visualização interativa de dados
@@ -61,7 +61,7 @@ As seguintes tecnologias foram usadas na construção do projeto:
 - **Radix UI**
 - **Zustand**
 - **React Hook Form**
-- **JWT & bcryptjs**
+- **JWT**
 
 Outras dependências e ferramentas utilizadas podem ser encontradas no arquivo
 package.json dos projetos.
