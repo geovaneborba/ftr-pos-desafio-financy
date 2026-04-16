@@ -141,6 +141,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
                   />
                 </InputGroupAddon>
                 <InputGroupInput
+                  className="placeholder:text-base placeholder:text-gray-400 data-filled:text-gray-800"
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Digite sua senha"
