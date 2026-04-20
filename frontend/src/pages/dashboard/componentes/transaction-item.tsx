@@ -55,12 +55,12 @@ export function TransactionItem({
       </div>
 
       {/* Category badge - hidden on mobile, shown on sm */}
-      <div className="ml-auto hidden items-center justify-center text-center capitalize sm:flex sm:w-40 sm:px-6">
-        <Badge variant={category.color}>{category.name}</Badge>
+      <div className="ml-auto hidden capitalize justify-center sm:flex sm:w-40">
+        <Badge className='px-3 py-1 text-sm' variant={category.color}>{category.name}</Badge>
       </div>
 
       {/* Amount and icon */}
-      <span className="ml-auto flex shrink-0 items-center gap-2 text-xs font-semibold text-gray-800 sm:ml-0 sm:text-sm">
+      <span className="ml-auto flex shrink-0 items-center justify-end gap-2 text-xs font-semibold text-gray-800 sm:ml-0 sm:text-sm sm:w-40">
         {formatCurrency(amountInCents, type)}
 
         {isIncome ? (
