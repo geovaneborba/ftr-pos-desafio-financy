@@ -16,6 +16,8 @@ import { DELETE_CATEGORY_MUTATION } from '@/lib/graphql/mutations/category/delet
 import { iconMap } from '@/constants/icons';
 import { cn } from '@/utils/utils';
 import { colorMap } from '@/constants/colors';
+import { LIST_TRANSACTIONS } from '@/lib/graphql/queries/transaction';
+import { LIST_CATEGORIES } from '@/lib/graphql/queries/category';
 
 type DeleteCategoryDialogProps = {
   category: Category;
@@ -30,17 +32,10 @@ export function DeleteCategoryDialog({
   const client = useApolloClient();
 
   const [deleteCategory, { loading }] = useMutation(DELETE_CATEGORY_MUTATION, {
+    refetchQueries: [LIST_CATEGORIES, LIST_TRANSACTIONS],
     onCompleted: () => {
-      // Atualizar o cache manualmente para remover a categoria
-      client.cache.modify({
-        fields: {
-          listCategories(existingCategories = [], { readField }) {
-            return existingCategories.filter(
-              (categoryRef: any) => category.id !== readField('id', categoryRef)
-            );
-          }
-        }
-      });
+      client.cache.evict({ id: 'ROOT_QUERY', fieldName: 'listTransactions' });
+      client.cache.evict({ id: 'ROOT_QUERY', fieldName: 'listCategories' });
 
       setDialogOpen(false);
       toast.success('Categoria excluída com sucesso!');

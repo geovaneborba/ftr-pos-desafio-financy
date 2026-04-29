@@ -25,11 +25,12 @@ import { categorySchema, CategoryFormData } from '@/schemas/category-schema';
 import { cn } from '@/utils/utils';
 import { iconMap, iconNames } from '@/constants/icons';
 import { colorMap, colorVariants } from '@/constants/colors';
-import { useMutation } from '@apollo/client/react';
+import { useApolloClient, useMutation } from '@apollo/client/react';
 
 import { LIST_CATEGORIES } from '@/lib/graphql/queries/category';
 import { UPDATE_CATEGORY_MUTATION } from '@/lib/graphql/mutations/category/update-category';
 import { Category } from '@/types';
+import { LIST_TRANSACTIONS } from '@/lib/graphql/queries/transaction';
 
 type UpdateCategoryDioalog = {
   category: Category;
@@ -52,9 +53,13 @@ export function UpdateCategoryDialog({
     resolver: zodResolver(categorySchema)
   });
 
+  const client = useApolloClient();
+
   const [updateCategory, { loading }] = useMutation(UPDATE_CATEGORY_MUTATION, {
-    refetchQueries: [LIST_CATEGORIES],
+    refetchQueries: [LIST_CATEGORIES, LIST_TRANSACTIONS],
     onCompleted: () => {
+      client.cache.evict({ id: 'ROOT_QUERY', fieldName: 'listTransactions' });
+      client.cache.evict({ id: 'ROOT_QUERY', fieldName: 'listCategories' });
       setDialogOpen(false);
       reset();
       toast.success('Categoria atualizada com sucesso!');
