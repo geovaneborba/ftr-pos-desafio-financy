@@ -3,6 +3,8 @@ import { useQuery } from '@apollo/client/react';
 import { LIST_CATEGORIES } from '@/lib/graphql/queries/category';
 import { Category } from '@/types/category';
 import { CategorySummarySkeleton } from '@/components/skeleton';
+import { useCategoryStatistics } from '@/hooks/use-category-statistics';
+import { CategoryStatisticCard } from './statistic-card';
 
 export function CategorySummaryCard() {
   const { data, loading } = useQuery<{ listCategories: Category[] }>(
@@ -10,26 +12,10 @@ export function CategorySummaryCard() {
   );
   const categories = data?.listCategories || [];
 
-  if (loading) {
-    return <CategorySummarySkeleton />;
-  }
+  const { totalCategories, totalTransactions, categoryWithMostTransactions } =
+    useCategoryStatistics(categories);
 
-  const totalCategories = categories.length;
-  const totalTransactions = categories.reduce(
-    (sum, category) => sum + category.transactionCount,
-    0
-  );
-
-  const categoryWithMostTransactions =
-    categories.length > 0
-      ? categories.reduce((prevCategory, currentCategory) =>
-          currentCategory.transactionCount > prevCategory.transactionCount
-            ? currentCategory
-            : prevCategory
-        )
-      : { name: 'Nenhuma categoria', transactionCount: 0 };
-
-  const statistics = [
+  const categoryStatistics = [
     {
       id: 1,
       label: 'total de categorias',
@@ -47,35 +33,24 @@ export function CategorySummaryCard() {
     {
       id: 3,
       label: 'categoria mais utilizada',
-      value: categoryWithMostTransactions.name,
+      value: categoryWithMostTransactions,
       icon: Utensils,
       iconColor: 'text-blue-base'
     }
   ];
 
+  if (loading) {
+    return <CategorySummarySkeleton />;
+  }
+
   return (
     <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-3">
-      {statistics.map((stat) => {
-        const Icon = stat.icon;
-
-        return (
-          <div
-            key={stat.id}
-            className="flex gap-4 rounded-[12px] border border-gray-200 bg-white p-6"
-          >
-            <div className="flex gap-2">
-              <div className="last:capitalize">
-                <span className="flex items-center gap-4 font-bold text-gray-800 lg:text-[28px]">
-                  <Icon className={stat.iconColor} /> {stat.value}
-                </span>
-                <p className="mt-2 text-xs font-medium text-gray-500 uppercase">
-                  {stat.label}
-                </p>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+      {categoryStatistics.map((statistic) => (
+        <CategoryStatisticCard
+          key={statistic.id}
+          categoryStatistic={statistic}
+        />
+      ))}
     </div>
   );
 }

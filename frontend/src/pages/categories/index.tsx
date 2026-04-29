@@ -1,10 +1,10 @@
 import { Header } from './components/header';
 import { CategorySummaryCard } from './components/category-summary-card';
-import { CategoryCard } from './components/category-card';
 import { CategoryCardsSkeleton } from '@/components/skeleton';
 import { useQuery } from '@apollo/client/react';
 import { LIST_CATEGORIES } from '@/lib/graphql/queries/category';
 import { Category } from '@/types/category';
+import { CategoryList } from './components/category-list';
 
 export function Categories() {
   const { data, loading } = useQuery<{ listCategories: Category[] }>(
@@ -32,22 +32,7 @@ export function Categories() {
         <CategorySummaryCard />
 
         {/* Categories List */}
-        <div className="category-list mt-8 flex flex-col gap-4 sm:col-span-2 sm:grid sm:grid-cols-2 lg:grid-cols-4">
-          {categories.length > 0 ? (
-            categories.map((category) => (
-              <CategoryCard key={category.id} category={category} />
-            ))
-          ) : (
-            <div className="col-span-full flex flex-col items-center justify-center space-y-2 p-8 text-center">
-              <p className="text-sm text-gray-500">
-                Nenhuma categoria encontrada
-              </p>
-              <p className="text-xs text-gray-400">
-                Crie categorias para organizar melhor suas transações
-              </p>
-            </div>
-          )}
-        </div>
+        <CategoryList categories={categories} />
       </main>
     </div>
   );
