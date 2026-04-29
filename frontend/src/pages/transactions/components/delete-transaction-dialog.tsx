@@ -11,7 +11,12 @@ import { ReactNode, useState } from 'react';
 import { useMutation } from '@apollo/client/react';
 import { DELETE_TRANSACTION_MUTATION } from '@/lib/graphql/mutations/transaction/delete-transaction';
 import { Transaction } from '@/types/transaction';
-import { LIST_TRANSACTIONS } from '@/lib/graphql/queries/transaction';
+import {
+  LIST_TRANSACTIONS,
+  GET_TOTAL_BALANCE,
+  GET_TOTAL_INCOME,
+  GET_TOTAL_EXPENSE
+} from '@/lib/graphql/queries/transaction';
 import { formatCurrency } from '@/utils/format-currency';
 import { LIST_CATEGORIES } from '@/lib/graphql/queries/category';
 import { toast } from 'sonner';
@@ -30,7 +35,19 @@ export function DeleteTransactionDialog({
   const [deleteTransaction, { loading }] = useMutation(
     DELETE_TRANSACTION_MUTATION,
     {
-      refetchQueries: [LIST_TRANSACTIONS, LIST_CATEGORIES],
+      refetchQueries: [
+        LIST_TRANSACTIONS,
+        LIST_CATEGORIES,
+        GET_TOTAL_BALANCE,
+        GET_TOTAL_INCOME,
+        GET_TOTAL_EXPENSE
+      ],
+      update: (cache) => {
+        cache.evict({ fieldName: 'getTotalBalance' });
+        cache.evict({ fieldName: 'getTotalIncome' });
+        cache.evict({ fieldName: 'getTotalExpense' });
+        cache.evict({ fieldName: 'listTransactions' });
+      },
       onCompleted: () => {
         setDialogOpen(false);
         toast.success('Transação excluída com sucesso!');
