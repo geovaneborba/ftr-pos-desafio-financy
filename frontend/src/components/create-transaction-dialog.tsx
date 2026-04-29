@@ -43,7 +43,12 @@ import { cn } from '@/utils/utils';
 
 import { CREATE_TRANSACTION_MUTATION } from '@/lib/graphql/mutations/transaction/create-transaction';
 import { LIST_CATEGORIES } from '@/lib/graphql/queries/category';
-import { LIST_TRANSACTIONS } from '@/lib/graphql/queries/transaction';
+import {
+  LIST_TRANSACTIONS,
+  GET_TOTAL_BALANCE,
+  GET_TOTAL_INCOME,
+  GET_TOTAL_EXPENSE
+} from '@/lib/graphql/queries/transaction';
 import {
   amountToCents,
   convertToBRL,
@@ -85,7 +90,19 @@ export function CreateTransactionDialog({
   const [createTransaction, { loading }] = useMutation(
     CREATE_TRANSACTION_MUTATION,
     {
-      refetchQueries: [LIST_CATEGORIES, LIST_TRANSACTIONS],
+      refetchQueries: [
+        LIST_CATEGORIES,
+        LIST_TRANSACTIONS,
+        GET_TOTAL_BALANCE,
+        GET_TOTAL_INCOME,
+        GET_TOTAL_EXPENSE
+      ],
+      update: (cache) => {
+        cache.evict({ fieldName: 'getTotalBalance' });
+        cache.evict({ fieldName: 'getTotalIncome' });
+        cache.evict({ fieldName: 'getTotalExpense' });
+        cache.evict({ fieldName: 'listTransactions' });
+      },
       onCompleted: () => {
         setDialogOpen(false);
         reset();
