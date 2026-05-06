@@ -14,6 +14,7 @@ import {
 import { generateMonthPeriods } from '@/utils/generate-periods';
 
 import { Category } from '@/types';
+import { capitalize } from '@/utils/format-string';
 
 type TransactionFiltersProps = {
   categories: Category[];
@@ -103,6 +104,7 @@ export function TransactionFilters({ categories }: TransactionFiltersProps) {
 
         <Select
           name={'categoryId'}
+          value={searchParam.get('categoryId') || 'all'}
           onValueChange={(value) =>
             handleUpdateSearchParams('categoryId', value)
           }
@@ -133,6 +135,7 @@ export function TransactionFilters({ categories }: TransactionFiltersProps) {
         </FieldLabel>
         <Select
           name={'period'}
+          value={searchParam.get('period') || 'all'}
           onValueChange={(value) => handleUpdateSearchParams('period', value)}
         >
           <SelectTrigger className="bg-card border-border h-10">
@@ -146,7 +149,7 @@ export function TransactionFilters({ categories }: TransactionFiltersProps) {
                 key={period.value}
                 value={period.value}
               >
-                {period.label}
+                {capitalize(period.label)}
               </SelectItem>
             ))}
           </SelectContent>
