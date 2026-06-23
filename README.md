@@ -1,4 +1,4 @@
-![Thumbnail]()
+<img width="1920" height="1080" alt="Financy - Desafio de pós-graduação" src="https://github.com/user-attachments/assets/5d0cb181-ef20-4af1-8f7a-2c3ce9be20cb" />
 
 <p align="center">
   <img alt="Repo size"  src="https://img.shields.io/github/repo-size/geovaneborba/ftr-pos-desafio-financy?color=4f46e5&style=for-the-badge">
